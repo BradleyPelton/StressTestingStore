@@ -15,7 +15,11 @@ Great skills I'm going to learn along the way:
 https://docs.locust.io/en/latest/testing-other-systems.html
 
 
-WHY NOT JMETER?
+### WHY NOT JMETER?
 - "JMeter is thread-bound. This means for every user you want to simulate, you need a separate
 thread. Needless to say, benchmarking thousands of users on a single machine just isn’t feasible."
 - Jmeter requires Java or Jython
+
+### Best practices checklist
+- Make sure every request has a timeout
+-" It’s a good practice to set connect timeouts to slightly larger than a multiple of 3, which is the default TCP packet retransmission window."
