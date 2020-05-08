@@ -2,48 +2,34 @@
 OFFICIAL LOCUST IMAGE
 https://hub.docker.com/r/locustio/locust
 
-# I NEED TO OPEN THE FIREWALL FOR THE PORTS
+UNOFFICIAL LINKS
+https://gist.github.com/bradtraversy/89fad226dc058a41b596d586022a9bd3
+<!-- THE ONE BELOW IS THE BEST LINK -->
+https://hub.docker.com/r/grubykarol/locust
+
 
 <!-- grubys image -->
 sudo docker pull grubykarol/locust
 
-<!-- undedited from dockerhub -->
-docker run --rm --name standalone --hostname standalone -e ATTACKED_HOST=http://example.com -e "LOCUST_OPTS=--no-web" -d -v $MY_SCRIPTS:/locust grubykarol/locust
-
 <!-- WORKING, DO NOT TOUCH -->
-sudo docker run --name standalone --hostname standalone \
+<!-- justbrowsingswarm -->
+sudo docker run --name justbrowsingswarm --hostname justbrowsingswarm \
 -e ATTACKED_HOST=https://demoblaze.com \
--e "LOCUST_OPTS=--no-web" \
--v /home/mavric/stresstestingstore:/locust \
-grubykarol/locust   
+-e "LOCUST_OPTS=--no-web -c 100 -r 10 --run-time 20s" \
+-e "LOCUST_FILE= /locust/justbrowsingswarm.py" \
+-v /home/mavric/StressTestingStore:/locust \
+grubykarol/locust
 
-
-
-<!-- ISSUES TO ADDRESS:
-0.) PROCESS RAN ENDLESSLY BECAUSE I RAN IT ATTACHED INSTEAD OF DETACHED 
-1.) I HAD TO DELETE DOCKERFILE
-2.) I HAD TO RENAME justbrowsingswarm.py to locustfile.py
-3.) I HAD TO RENAME StressTestingStore to stresstestingstore
--->
-
-sudo docker run --name standalone --hostname standalone \
--e ATTACKED_HOST=https://demoblaze.com \
--e "LOCUST_OPTS=--no-web" \
--v /home/mavric/stresstestingstore:/locust \
-grubykarol/locust   
-
-<!-- not working -->
-<!-- sudo docker run --name swarmcontainer --hostname swarmcontainer \
--e ATTACKED_HOST=https://demoblaze.com \
--e LOCUST_OPTS="--no-web" \
--e LOCUST_FILE= /StressTestingStore/justbrowsingswarm.py \
--v /home/mavric/stresstestingstore: /stresstestingstore
--p 8089:8089 -->
+<!-- coreswarm -->
+sudo docker run --name coreswarm --hostname coreswarm \
+-e ATTACKED_HOST=https://api.demoblaze.com \
+-e "LOCUST_OPTS=--no-web -c 5 -r 1 --run-time 10s" \
+-e "LOCUST_FILE= /locust/coreswarm.py" \
+-v /home/mavric/StressTestingStore:/locust \
+grubykarol/locust
 
 <!-- Volumes allow you to share files with the host and the container -->
 
-<!--  -->
-<!--  -->
 ### WORKFLOW
 TODO- I still need to get my locustfile logic into the image.
 People are suggested using volumes. I think volumes are only used for real time updating
