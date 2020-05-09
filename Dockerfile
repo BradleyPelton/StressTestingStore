@@ -1,7 +1,5 @@
 FROM ubuntu:18.04
 
-COPY docker-entrypoint.sh /
-
 RUN    apt-get update \
     && apt-get install -y --no-install-recommends \
     && apt-get install -y git \
@@ -12,7 +10,5 @@ RUN    apt-get update \
     && mkdir /locust
 
 WORKDIR /locust
+
 EXPOSE 8089 5557 5558
-
-
-ENTRYPOINT ["/docker-entrypoint.sh"]

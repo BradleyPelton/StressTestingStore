@@ -7,6 +7,37 @@ https://gist.github.com/bradtraversy/89fad226dc058a41b596d586022a9bd3
 <!-- THE ONE BELOW IS THE BEST LINK -->
 https://hub.docker.com/r/grubykarol/locust
 
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+### MY IMAGE
+<!-- WORKING DO NOT TOUCH -->
+sudo docker pull bradleypelton/locustconfig1:latest
+
+sudo docker run -t -d --name jbscont bradleypelton/locustconfig1:latest
+
+sudo docker exec -it jbscont git clone https://github.com/BradleyPelton/StressTestingStore
+sudo docker exec -it jbscont locust -f StressTestingStore/justbrowsingswarm.py --no-web -c 5 -r 1 --run-time 10s
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
+
+
 
 <!-- grubys image -->
 sudo docker pull grubykarol/locust
@@ -33,11 +64,33 @@ sudo docker run --name jbscont --hostname jbscont \
 -e PYTHONUNBUFFERED=0 \
 -e ATTACKED_HOST=https://api.demoblaze.com \
 -e "LOCUST_OPTS=--no-web -c 5 -r 1 --run-time 10s" \
--e "LOCUST_FILE=/locust/justbrowsingswarm.py" \
+-e "LOCUST_FILE=/locust/locustfile.py" \
 -v /home/mavric/StressTestingStore:/locust \
-tbs5
+tbs9 
 
-<!-- does a space after equals sign matter????/ -->
+
+
+# FIRST BUILD AFTER SETTING DOCKERFILE
+sudo docker build -t tbs9 . 
+
+sudo docker images
+
+sudo rm Dockerfile
+nano Dockerfile
+
+
+sudo docker run -t -d --name jbscont tbs4
+<!-- #### ^ runs the container and leave its open -->
+
+sudo docker exec -it jbscont /bin/bash
+<!-- ### ^ opens bash from within the container   -->
+
+sudo docker exec -it jbscont "
+
+sudo docker run --name jbscont --hostname tbs4 /bin/pwd \
+-v /home/mavric/StressTestingStore:/locust \
+
+
 
 ### WORKFLOW
 TODO- I still need to get my locustfile logic into the image.

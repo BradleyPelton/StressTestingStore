@@ -45,30 +45,13 @@ ENTRYPOINT ["locust"]
 #######################################
 #######################################
 
-# FIRST BUILD AFTER SETTING DOCKERFILE
-sudo docker build -t tbs5 .
-
-sudo docker images
-
-sudo rm Dockerfile
-nano Dockerfile
-
-
-sudo docker run -t -d --name jbscont tbs4
-#### ^ runs the container and leave its open
-
-sudo docker exec -it jbscont /bin/bash
-### ^ opens bash from within the container  
-
-sudo docker exec -it jbscont "
-
-sudo docker run --name jbscont --hostname tbs4 /bin/pwd \
--v /home/mavric/StressTestingStore:/locust \
 
 ##########################################################
 ##########################################################
 ##########################################################
 ##########################################################
+
+##### KARONS DOCKER FILE
 
 FROM python:3.8.1-alpine3.11
 

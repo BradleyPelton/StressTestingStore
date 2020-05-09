@@ -1,4 +1,3 @@
-  
 #!/bin/sh
 #   Copyright 2019 Karol Brejna
 #
