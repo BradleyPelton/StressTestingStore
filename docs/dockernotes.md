@@ -28,7 +28,16 @@ sudo docker run --name coreswarm --hostname coreswarm \
 -v /home/mavric/StressTestingStore:/locust \
 grubykarol/locust
 
-<!-- Volumes allow you to share files with the host and the container -->
+<!-- mycontiner EXPIREMENTATION -->
+sudo docker run --name jbscont --hostname jbscont \
+-e PYTHONUNBUFFERED=0 \
+-e ATTACKED_HOST=https://api.demoblaze.com \
+-e "LOCUST_OPTS=--no-web -c 5 -r 1 --run-time 10s" \
+-e "LOCUST_FILE=/locust/justbrowsingswarm.py" \
+-v /home/mavric/StressTestingStore:/locust \
+tbs5
+
+<!-- does a space after equals sign matter????/ -->
 
 ### WORKFLOW
 TODO- I still need to get my locustfile logic into the image.
