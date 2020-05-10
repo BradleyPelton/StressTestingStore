@@ -26,25 +26,26 @@ class UserBehaviour(TaskSequence):
         pass
 
     def on_start(self):
-        """on_start is called when a Locust is created"""
+        """on_start is called when a Locust is created. Assigns the default attributes."""
         random_user = users_dict.popitem()
         self.username = random_user[0]
-        self.password = random_user[1]['password']  # the value(a dict) is the second object
-        self.uuid = str(uuid.uuid1())  # UUID to be used multiple places as a payload obj
-        self.auth_token = ''  # Created in the login process
-        self.last_added_item = -1 
+        self.password = random_user[1]['password']  # The value(a dict) is the second object.
+        self.uuid = str(uuid.uuid1())  # UUID to be used in multiple places as a payload obj.
+        self.auth_token = ''  # Placeholder, reassigned during the login process.
+        self.last_added_item = -1  # Placeholder for tracking the last item added to the cart.
 
         # TODO- add proxy logic here
 
     def on_stop(self):
-        """on_stop is called when the Locust finishes is stopping """
+        """on_stop is called when the Locust finishes its tasks."""
         pass
 
     @seq_task(1)
     def home_page(self):
+        """Send a basic GET request to the home_page."""
         # self.client starts a request Session(). this session keeps track of some headers
         # print(f'executing HOME_PAGE for {self.username}')
-        self.client.get("https://demoblaze.com")
+        self.client.get("https://demoblaze.com", timeout=5)
 
     @seq_task(2)
     def login(self):
@@ -120,12 +121,6 @@ class UserBehaviour(TaskSequence):
 
     # def logout(self):
     #     self.client.post("/logout", {"username":"ellen_key", "password":"education"})
-
-    # def index(self):
-    #     self.client.get("/")
-
-    # def profile(self):
-    #     self.client.get("/profile")
 
 
 class WebsiteUser(HttpLocust):

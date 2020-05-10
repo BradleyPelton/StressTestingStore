@@ -7,7 +7,7 @@ import requests
 #########################################################
 #########################################################
 # TODO- This is probably all going to have to be reworked once everything gets moved
-# to google cloud with either VM's or containers. Leave it be for now
+# Docker. Leave it be for now
 
 
 # Scrape a list of proxies from a free website and use them

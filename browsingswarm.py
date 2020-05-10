@@ -39,19 +39,19 @@ class UserBehaviour(TaskSet):
 
     @task(1)
     def home_page(self):
-        page_get = self.client.get("/")
+        page_get = self.client.get("/", timeout=5)
 
         assert page_get.status_code == 200
 
     @task(1)
     def index_page(self):
-        page_get = self.client.get("/index.html")
+        page_get = self.client.get("/index.html", timeout=5)
 
         assert page_get.status_code == 200
 
     @task(1)
     def cart_page(self):
-        page_get = self.client.get('/cart.html')
+        page_get = self.client.get('/cart.html', timeout=5)
 
         assert page_get.status_code == 200
 
@@ -59,7 +59,7 @@ class UserBehaviour(TaskSet):
     def random_product_page(self):
         random_id = random.randint(1, 15)  # 15 unique product pages.
         payload = {"idp_": random_id}
-        page_get = self.client.get('/prod.html', params=payload, name='all_product_page')
+        page_get = self.client.get('/prod.html', params=payload, name='produce_pages', timeout=5)
 
         assert page_get.status_code == 200
 
