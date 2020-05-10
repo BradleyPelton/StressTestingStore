@@ -1,0 +1,51 @@
+
+CONNECT
+cd ~
+cd .ssh
+code .
+
+
+
+=-=-=-=-=FRESH INSTANCE =-=-=-=-=-=
+add ssh key to the security properties before creating the instance
+
+sudo apt-get update
+
+
+sudo apt-get install htop
+sudo apt-get install mlocate
+
+sudo apt-get install git
+
+sudo apt-get install python3.8
+sudo apt-get install python3-pip
+sudo apt-get install python3-venv
+
+######################################### DOKER SETUP START
+#################### SEE https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo apt-key fingerprint 0EBFCD88 
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+##################################### DOKER SETUP END
+#################### (verify docker is working by: sudo docker hello-world
+
+
+sudo docker login --username bradleypelton 
+

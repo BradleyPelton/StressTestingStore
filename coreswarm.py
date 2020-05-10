@@ -12,7 +12,7 @@ with open('users.csv', 'r') as bccsv:
     for row in reader:
         users_dict[row[0]]['password'] = row[1].strip()
         users_dict[row[0]]['cookies'] = []
-print(users_dict)
+# print(users_dict)
 
 
 class UserBehaviour(TaskSequence):
@@ -32,6 +32,7 @@ class UserBehaviour(TaskSequence):
         self.password = random_user[1]['password']  # the value(a dict) is the second object
         self.uuid = str(uuid.uuid1())  # UUID to be used multiple places as a payload obj
         self.auth_token = ''  # Created in the login process
+        self.last_added_item = -1 
 
         # TODO- add proxy logic here
 
@@ -42,6 +43,7 @@ class UserBehaviour(TaskSequence):
     @seq_task(1)
     def home_page(self):
         # self.client starts a request Session(). this session keeps track of some headers
+        # print(f'executing HOME_PAGE for {self.username}')
         self.client.get("https://demoblaze.com")
 
     @seq_task(2)
@@ -55,20 +57,23 @@ class UserBehaviour(TaskSequence):
         encoded_password = encoded_password.decode()  # Convert from binary back to string
         login_post_request['password'] = encoded_password
 
-        r = self.client.post("/login", json=login_post_request)
-        assert 'Auth_token:' in r.text, f"Login failed for {self.username}"
+        login_post = self.client.post("/login", json=login_post_request, timeout=5)
+        assert 'Auth_token:' in login_post.text, f"Login failed for {self.username}"
 
-        self.auth_token = r.json().split(": ")[-1]
+        # print(f"login post for {self.username} has status code {login_post.status_code}")
+        # print(login_post.content)
+
+        self.auth_token = login_post.json().split(": ")[-1]
         # print(f"generated auth_token is {self.auth_token}")
 
     @seq_task(3)
     def add_item_to_my_cart(self):
         """ Add a random item to my cart by sending a post request"""
-        # TODO- UNTESTED INSIDE LOCUST CLASS (tested standalone)
         # Need to construct a payload
         payload = {}
         if not self.auth_token:
             print(f"NO AUTH TOKEN FOUND FOR {self.username}")
+            # TODO- test should bomb out here. Return a response.failure("invalid params")
         payload["cookie"] = self.auth_token
         payload["prod_id"] = random.randint(1, 15)  # 15 items in the database
         payload["id"] = self.uuid
@@ -76,13 +81,14 @@ class UserBehaviour(TaskSequence):
         # print(f"payload for {self.username} is")
         # print(payload)
 
-        new_item_post = self.client.post('/addtocart', json=payload)
+        new_item_post = self.client.post('/addtocart', json=payload, timeout=5)
+        self.last_added_item = payload["prod_id"]
 
         # print(f"add new item post {self.username} has status code {new_item_post.status_code}")
-        print(new_item_post.content)
+        # print(new_item_post.content)
 
-        # assert new_item_post.status_code == 200
-        # assert new_item_post.content == b''
+        assert new_item_post.status_code == 200
+        assert new_item_post.content == b''
 
     @seq_task(4)
     def get_cart_info(self):
@@ -91,13 +97,13 @@ class UserBehaviour(TaskSequence):
         payload["cookie"] = self.auth_token
         payload["flag"] = 'true'
 
-        view_cart_post = self.client.post('/viewcart', json=payload)
+        view_cart_post = self.client.post('/viewcart', json=payload, timeout=5)
 
-        # print(f"view_cart_post status code is {view_cart_post.status_code}")
+        # print(f"view_cart_post for {self.username} status code is {view_cart_post.status_code}")
         # print(view_cart_post.content)
 
-        assert "Items" in view_cart_post.content, "view_cart_post failed, maybe empty cart?"
-        # TODO- TEST RUNNING VIEWCART ON AN EMPTY CART
+        assert f'"prod_id":{self.last_added_item}' in view_cart_post.content.decode()
+        # assert the most recently added item is present in the cart
 
     @seq_task(5)
     def place_order(self):
@@ -105,12 +111,12 @@ class UserBehaviour(TaskSequence):
         payload = {}
         payload["cookie"] = self.username
 
-        delete_cart_post = self.client.post('/deletecart', json=payload)
+        delete_cart_post = self.client.post('/deletecart', json=payload, timeout=5)
 
-        # print(f"delete_cart_post status code is {delete_cart_post.status_code}")
+        # print(f"delete_cart_post for {self.username} status code is {delete_cart_post.status_code}")
         # print(delete_cart_post.content)
 
-        assert "Item deleted" in delete_cart_post.content, "place order post failed"
+        assert "Item deleted" in delete_cart_post.content.decode(), "place order post failed"
 
     # def logout(self):
     #     self.client.post("/logout", {"username":"ellen_key", "password":"education"})
