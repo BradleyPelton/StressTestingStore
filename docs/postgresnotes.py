@@ -30,6 +30,16 @@ finally:
         print("PostgreSQL connection is closed")
 
 
+sudo docker run -t -d --name pg pgcont
+sudo docker exec -it  pg /bin/bash
+apt-get install sudo
+# START POSGRESQL FROM FRESH INSTALL
+sudo service postgresql start
+sudo -i -u postgres
+psql
+create database testdb;
+create user locustscriptuser with encrypted password 'locustpassword';
+grant all privileges on database testdb to locustscriptuser;
 
 CREATE TABLE public.user_credential(
    ID           SERIAL PRIMARY KEY     NOT NULL,
@@ -49,4 +59,4 @@ VALUES
     ('testlocust07', 'Turing123'),
     ('testlocust08', 'Turing123'),
     ('testlocust09', 'Turing123')
-
+;

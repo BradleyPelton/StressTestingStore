@@ -72,6 +72,7 @@ tbs9
 
 # FIRST BUILD AFTER SETTING DOCKERFILE
 sudo docker build -t tbs9 . 
+sudo docker build -t pgcont . 
 
 sudo docker images
 
@@ -79,10 +80,12 @@ sudo rm Dockerfile
 nano Dockerfile
 
 
+sudo docker run -t -d --name pg pgcont
 sudo docker run -t -d --name jbscont tbs4
 <!-- #### ^ runs the container and leave its open -->
 
 sudo docker exec -it jbscont /bin/bash
+sudo docker exec -it  pg /bin/bash
 <!-- ### ^ opens bash from within the container   -->
 
 sudo docker exec -it jbscont "
