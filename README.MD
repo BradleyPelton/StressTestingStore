@@ -31,6 +31,13 @@ The application-under-test(AUT) is https://www.demoblaze.com/ , a fully function
 thread. Needless to say, benchmarking thousands of users on a single machine just isn’t feasible."
 - Jmeter requires Java or Jython
 
+### FEATURES SOON TO BE ADDED
+- Add a proxy to every request 
+- Add a user database container that connects to the locustcontainer. See /database
+-
+
+
+
 ### NOTES TO AUTHOR: Best practices checklist
 - Make sure every request has a timeout
 - "It’s a good practice to set connect timeouts to slightly larger than a multiple of 3,

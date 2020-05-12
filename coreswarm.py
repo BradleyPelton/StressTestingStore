@@ -6,7 +6,8 @@ import uuid
 
 from locust import HttpLocust, TaskSet, TaskSequence, task, between, seq_task
 
-users_dict = defaultdict(dict)  # TODO- switch to an ordered dict?
+# Create a dictionary to store user credentials, see /users.csv
+users_dict = defaultdict(dict)
 with open('users.csv', 'r') as bccsv:
     reader = csv.reader(bccsv, delimiter=',', quotechar='|')
     for row in reader:
@@ -16,7 +17,6 @@ with open('users.csv', 'r') as bccsv:
 
 
 class UserBehaviour(TaskSequence):
-    # TODO- TIMEOUTS
     def setup(self):
         """setup the taskset class"""
         pass
