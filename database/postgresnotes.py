@@ -30,7 +30,7 @@ finally:
         print("PostgreSQL connection is closed")
 
 
-sudo docker run -t -d --name pg pgcont
+sudo docker run -t -d -p 5432:5432 --name pg pgcont
 sudo docker exec -it  pg /bin/bash
 apt-get install sudo
 # START POSGRESQL FROM FRESH INSTALL

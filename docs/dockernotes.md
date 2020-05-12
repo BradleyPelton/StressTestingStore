@@ -81,7 +81,7 @@ nano Dockerfile
 
 
 sudo docker run -t -d --name pg pgcont
-sudo docker run -t -d --name jbscont tbs4
+sudo docker run -t -d --name jbscont bradleypelton/locustconfig1
 <!-- #### ^ runs the container and leave its open -->
 
 sudo docker exec -it jbscont /bin/bash
